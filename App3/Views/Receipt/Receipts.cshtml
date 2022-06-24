@@ -1,0 +1,61 @@
+﻿@model IEnumerable<App3.Models.Receipt>
+
+@{
+    //Layout = "~/Views/Income/_Layout.cshtml";
+    Layout = "~/Views/Layout/_Layout.cshtml";
+}
+
+<div class="row mt-2">
+    <div class="col-md-12">
+        <div class="card border-dark mb-3">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="CreateReceipt" asp-controller="Receipt">Create Receipt</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="true" asp-action="Receipts" asp-controller="Receipt">Receipt Information</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive-sm overflow-scroll">
+                    <table class="table  table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Invoice ID</th>
+                                <th>Receipt ID</th>
+                                <th>Amount</th>
+                                <th>Source Type</th>
+                                <th>Amount Recieved By</th>
+                                <th>Amount Recieved Date</th>
+                                <th>Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                @foreach (var emp in Model)
+                                {
+
+                                    <tr>
+                                        <td>@emp.InvoiceId</td>
+                                        <td>@emp.ReceiptID</td>
+                                        <td>@emp.Amount.ToString("C",CustomCulture.India)</td>
+                                        <td>@emp.AmountSource</td>
+                                        <td>@emp.AmountReceivedBy</td>
+                                        <td>@emp.ReceivedDate.ToString("dd/MM/yyyy")</td>
+                                        <td> <a asp-action="EditReceipt" asp-controller="Receipt" asp-route-id="@emp.id" type="submit" class="btn btn-primary btn-sm">Edit</a></td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

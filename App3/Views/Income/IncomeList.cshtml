@@ -1,0 +1,62 @@
+﻿@model IEnumerable<App3.Models.Income>
+@{
+    //Layout = "~/Views/Income/_Layout.cshtml";
+    Layout = "~/Views/Layout/_Layout.cshtml";
+}
+
+<div class="row mt-2">  
+    <div class="col-md-12">
+        <div class="card border-dark mb-3">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="AddIncome" asp-controller="Income">Invoice</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="true" asp-action="IncomeDetails" asp-controller="Income">Income Information</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive-sm overflow-scroll">
+                    <table class="table  table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Invoice ID</th>
+                                <th>Client Name</th>
+                                <th>Project Name</th>
+                                <th>Project Charges</th>
+                                <th>Tax</th>
+                                <th>Amount Recieved Date</th>
+                                <th>Amount Recieved By</th>
+                                <th>Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                @foreach (var emp in Model)
+                                {
+
+                                    <tr>
+                                        <td>@emp.InvoiceNumber</td>
+                                        <td>@emp.ClientName</td>
+                                        <td>@emp.ProjectName</td>
+                                        <td>@emp.ProjectChagres.ToString("C",CustomCulture.India)</td>
+                                        <td>@emp.Tax %</td>
+                                        <td>@emp.AmountRecievedDate.ToString("dd/MM/yyyy")</td>
+                                        <td>@emp.AmountRecivedBy</td>
+                                        <td> <a asp-action="EditIncome" asp-controller="Income" asp-route-id="@emp.Id" type="submit" class="btn btn-primary btn-sm">Edit</a></td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

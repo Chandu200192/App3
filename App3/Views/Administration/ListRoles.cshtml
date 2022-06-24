@@ -1,0 +1,81 @@
+﻿@model IEnumerable<IdentityRole>
+
+@{
+    Layout = "~/Views/Layout/_Layout.cshtml";
+    ViewBag.Title = "All the Roles";
+}
+
+@if (Model.Any())
+{
+    <div class="row mt-2">
+        <div class="col">
+            <a class="btn btn-primary" style="width:auto"
+               asp-action="CreateRole" , asp-controller="Administration">
+                Add New Role
+            </a>
+        </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+
+        @foreach (var role in Model)
+        {
+        <div class="col">
+            <div class="card border-info mb-3">
+                <div class="card-header">
+                    Role Name :  @role.Name
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        @role.Name
+                    </h4>
+                    <h4 class="card-title">
+                        @role.Id
+                    </h4>
+                </div>
+                <div class="card-footer">
+                    <form method="post" asp-action="DeleteRole" asp-route-id="@role.Id">
+                        <a class="btn btn-primary" style="width:auto"
+                           asp-action="EditRole" , asp-controller="Administration" asp-route-id="@role.Id">
+                            Edit
+                        </a>
+                        <span id="confirmDeleteSpan_@role.Id" style="display:none">
+                            <span>Are you sure you want to delete ?</span>
+                            <button type="submit" class="btn btn-danger" style="width:auto"> Yes </button>
+                            <a href="#" class="btn btn-primary" onclick="confirmDelete(@role.Id,false)">No</a>
+                        </span>
+                        <span id="deleteSpan_@role.Id">
+                            <a href="#" class="btn btn-danger" onclick="confirmDelete(@role.Id,true)">Delete</a>
+                        </span>
+                    </form>
+                </div>
+            </div>
+        </div>
+                }
+            </div>
+        
+}
+else
+{
+    <div class="row m-2">
+        <div class="col-md-8">
+            <div class="card border-light mb-3">
+                <div class="card-header">
+                    No roles created yet
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        Use the create option to create role
+                    </h5>
+                    <a class="btn btn-primary" style="width:auto"
+                       asp-action="CreateRole" , asp-controller="Administration">
+                        Create Role
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts{
+    <script src="~/js/CustomScript.js"></script>
+}

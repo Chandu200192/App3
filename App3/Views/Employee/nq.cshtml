@@ -1,0 +1,180 @@
+﻿using Microsoft.AspNetCore.Identity;
+@inject SignInManager<IdentityUser> signInManager;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <environment include="Development">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
+        <link href="~/lib2/bootstrap/css/bootstrap.css" rel="stylesheet" />
+        <script src="~/lib/jquery/jquery.js"></script>
+        <script src="~/lib/jquery-validate/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+        <link href="~/lib/datatables/css/jquery.dataTables.css" rel="stylesheet" />
+        <script src="~/lib/datatables/js/jquery.dataTables.js"></script>
+        <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+        <script src="~/lib2/bootstrap/js/bootstrap.js"></script>
+        <link href="~/css/CustomStyleSheet.css" rel="stylesheet" />
+        <link href="~/lib/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    </environment>
+    <environment exclude="Development">
+        CSS only
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+              rel="stylesheet"
+              integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+              crossorigin="anonymous">
+    </environment>
+    <link href="~/css/site.css" rel="stylesheet" />
+    <title>@ViewBag.Title</title>
+</head>
+<body style="background-color:azure; margin-bottom:0">
+    <div class="container-fluid h-100">
+        <div class="container-fluid p-0">
+            <div class="row ">
+                <div class="col-auto col-md-3 col-xl-2 px-0 bg-light border-end">
+                    <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                        <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-black text-decoration-none">
+                            <span class="fs-5 d-none d-sm-inline">Menu</span>
+                        </a>
+                        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link align-middle px-0">
+                                    <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-action="AddIncome" asp-controller="Income" class="nav-link px-0 align-middle">
+                                    <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Income</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-action="AddExpenses" asp-controller="Expenses" class="nav-link px-0 align-middle">
+                                    <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                                    <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Customer Information</span>
+                                </a>
+                                <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
+                                    <li class="w-100">
+                                        <a asp-action="AddClient" asp-controller="Income" class="nav-link px-0">
+                                            <span class="d-none d-sm-inline">Add Client</span> 1
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a asp-action="AddProject" asp-controller="Income" class="nav-link px-0">
+                                            <span class="d-none d-sm-inline">Projects</span> 2
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                                    <i class="fs-4 bi-clock"></i> <span class="ms-1 d-none d-sm-inline">BioMetric</span>
+                                </a>
+                                <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
+                                    <li class="w-100">
+                                        <a asp-action="TimeSheet" asp-controller="home" class="nav-link px-0">
+                                            <span class="d-none d-sm-inline">TimeSheet</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a asp-action="Summary" asp-controller="home" class="nav-link px-0">
+                                            <span class="d-none d-sm-inline">Summary</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                                    <i class="fs-4 bi-person-badge"></i> <span class="ms-1 d-none d-sm-inline">Employees</span>
+                                </a>
+                                <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
+                                    <li class="w-100">
+                                        <a asp-action="AddEmployee" asp-controller="Employee" class="nav-link px-0">
+                                            <span class="d-none d-sm-inline">Add Employees</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a asp-action="ListRoles" asp-controller="Administration" class="nav-link px-0">
+                                            <span class="d-none d-sm-inline">Roles</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+
+                            <li>
+                                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                                    <span class="d-none d-sm-inline">Reports</span>
+                                    <a class="d-flex align-items-center text-muted" href="#">
+                                    </a>
+                                </h6>
+                            </li>
+                            <li>
+                                <a asp-controller="Visualization" asp-action="Graph" class="nav-link px-0 align-middle ">
+                                    <i class="fs-4 bi-bar-chart"></i> <span class="ms-1 d-none d-sm-inline">Current Month</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <hr>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <nav class="navbar navbar-expand-sm bg-primary bg-gradient border-1 navbar-dark">
+                            <a class="navbar-brand">
+                                <img src="~/images/Students.jpg" height="30" width="30" />
+                            </a>
+                            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#collapsibleNavbar">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                                <ul class="navbar-nav ms-auto">
+                                    @if (signInManager.IsSignedIn(User))
+                                    {
+                                        <li class="nav-item">
+                                            <form method="post" asp-action="logout" asp-controller="Account">
+                                                <button type="submit" class="nav-link btn btn-link py-0"
+                                                        style="width:auto">
+                                                    Logout @User.Identity.Name
+                                                </button>
+                                            </form>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="nav-item">
+                                            <a asp-action="Register" asp-controller="Account" class="nav-link">Register</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a asp-action="Login" asp-controller="Account" class="nav-link">Login</a>
+                                        </li>
+                                    }
+
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                    <div class="row">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (IsSectionDefined("Scripts"))
+    {
+        @RenderSection("Scripts", required: true)
+    }
+</body>
+</html>
+
+
+
+
+

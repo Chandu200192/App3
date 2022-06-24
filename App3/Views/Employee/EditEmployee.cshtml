@@ -1,0 +1,118 @@
+﻿@model App3.ViewModel.EditEmployeeViewModel
+
+@{
+    Layout = "~/Views/Layout/_Layout.cshtml";
+
+}
+
+
+
+<div class="row justify-content-center mt-2">
+    <div class="col-md-12">
+        <div class="card border-info mb-3">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="AddEmployee" asp-controller="Employee">Add Employee</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="EmployeesList" asp-controller="Employee">Employees</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" aria-current="true">Edit</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <form enctype="multipart/form-data" asp-controller="Employee" asp-action="UpdateResult" method="post">
+                    <div class="form-group visually-hidden">
+                        <label class="form-label visually-hidden" asp-for="id">ID</label>
+                        <input type="text" class="form-control visually-hidden" asp-for="id">
+                    </div>
+                    <div class="row g-2">
+                        @if (User.IsInRole(""))
+                        {
+                            <div class="form-group col-md-6">
+                                <label class="form-label" asp-for="EmployeeID">Employee ID</label>
+                                <input type="text" class="form-control" asp-for="EmployeeID">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label" asp-for="EmployeeName">Employee Name</label>
+                                <input type="text" class="form-control" asp-for="EmployeeName">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label" asp-for="Email">Employee Email</label>
+                                <input type="text" class="form-control" asp-for="Email">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label" asp-for="ReportingManager">Reporting Manager</label>
+                                <input type="text" class="form-control" asp-for="ReportingManager">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label" asp-for="Project">Project</label>
+                                <input type="text" class="form-control" asp-for="Project">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label" asp-for="Designation">Designation</label>
+                                <input type="text" class="form-control" asp-for="Designation">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label" asp-for="DateOfJoining">Joining Date</label>
+                                <input type="date" class="form-control" asp-for="DateOfJoining">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label" asp-for="DOB">DOB</label>
+                                <input type="date" class="form-control" asp-for="DOB">
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group col-md-6">
+                                <label class="form-label" asp-for="EmployeeID">Employee ID</label>
+                                <input type="text" class="form-control" asp-for="EmployeeID" readonly>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label" asp-for="EmployeeName">Employee Name</label>
+                                <input type="text" class="form-control" asp-for="EmployeeName" readonly>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label" asp-for="Email">Employee Email</label>
+                                <input type="text" class="form-control" asp-for="Email" readonly>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label" asp-for="ReportingManager">Reporting Manager</label>
+                                <input type="text" class="form-control" asp-for="ReportingManager" readonly>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label" asp-for="Project">Project</label>
+                                <input type="text" class="form-control" asp-for="Project" readonly>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label" asp-for="Designation">Designation</label>
+                                <input type="text" class="form-control" asp-for="Designation" readonly>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label" asp-for="DateOfJoining">Joining Date</label>
+                                <input type="date" class="form-control" asp-for="DateOfJoining" readonly>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label" asp-for="DOB">DOB</label>
+                                <input type="date" class="form-control" asp-for="DOB" readonly>
+                            </div>
+                        }
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-12 col-12">
+                            <label class="form-label" asp-for="Photo">Upload Photo</label>
+                            <input type="file" class="form-control" asp-for="Photo">
+                        </div>
+                    </div>
+                    <div class="form-group m-2">
+                        <button class="btn btn-primary" type="submit">Update</button>
+                        <a class="btn btn-primary" asp-action="EmployeesList" asp-controller="Employee">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

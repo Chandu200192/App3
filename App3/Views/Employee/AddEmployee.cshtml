@@ -1,0 +1,68 @@
+﻿@model App3.Models.Employee
+
+@{
+    Layout = "~/Views/Layout/_Layout.cshtml";
+
+}
+
+
+<div class="row justify-content-center mt-2" >
+    <div class="col-md-12">
+        <div class="card border-info mb-3">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="true" asp-action="AddEmployee" asp-controller="Employee">Add Employee</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="EmployeesList" asp-controller="Employee">Employees</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <form asp-controller="Employee" asp-action="CreateEmployee" method="post">
+                    <div class="row g-2">
+                        <div class="form-group col-md-6">
+                            <label class="form-label" asp-for="EmployeeID">Employee ID</label>
+                            <input type="text" class="form-control" asp-for="EmployeeID">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" asp-for="EmployeeName">Employee Name</label>
+                            <input type="text" class="form-control" asp-for="EmployeeName">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" asp-for="Email">Employee Email</label>
+                            <input type="email" class="form-control" asp-for="Email">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" asp-for="ReportingManager">Reporting Manager</label>
+                            <input type="text" class="form-control" asp-for="ReportingManager">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" asp-for="Project">Project</label>
+                            <input type="text" class="form-control" asp-for="Project">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" asp-for="Designation">Designation</label>
+                            <input type="text" class="form-control" asp-for="Designation">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" asp-for="DateOfJoining">Joining Date</label>
+                            <input type="date" class="form-control" asp-format="{0:dd/MM/yyyy}" asp-for="DateOfJoining">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" asp-for="DOB">Date Of Birth</label>
+                            <input type="date" class="form-control" asp-format="{0:dd/MM/yyyy}" asp-for="DOB">
+                        </div>
+                    </div>
+                    <div class="form-group m-2">
+                        <button class="btn btn-primary" type="submit">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

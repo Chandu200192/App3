@@ -1,0 +1,60 @@
+﻿@model IEnumerable<App3.Models.Client>
+@{
+    //Layout = "~/Views/Income/_Layout.cshtml";
+    Layout = "~/Views/Layout/_Layout.cshtml";
+}
+
+<div class="row mt-2">
+    <div class="col-md-12">
+        <div class="card border-dark mb-2">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="AddClient" asp-controller="Income">Add Client</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="true" asp-action="ClientList" asp-controller="Income">Clients</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive-sm">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Client ID</th>
+                                <th>Client Name</th>
+                                <th>Phone Number</th>
+                                <th>City</th>
+                                <th>Country</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                @foreach (var emp in Model)
+                                {
+
+                            <tr>
+                                <td>@emp.ClientID</td>
+                                <td>@emp.ClientName</td>
+                                <td>@emp.PhoneNumber</td>
+                                <td>@emp.City</td>
+                                <td>@emp.Country</td>
+                                <td> <a class="btn btn-primary btn-sm" asp-action="EditClient" asp-controller="Income" asp-route-id="@emp.id">Edit</a></td>
+                                <td> <button type="submit" class="btn btn-primary btn-sm" asp-action="ClientList" asp-controller="Income" asp-route-id="@emp.id">Delete</button></td>
+                            </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

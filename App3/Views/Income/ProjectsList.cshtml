@@ -1,0 +1,57 @@
+﻿@model IEnumerable<App3.Models.Projects>
+
+@{
+    //Layout = "~/Views/Income/_Layout.cshtml";
+    Layout = "~/Views/Layout/_Layout.cshtml";
+}
+
+<div class="row mt-2">
+    <div class="col-md-12">
+        <div class="card border-info mb-3">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="AddProject" asp-controller="income">Add Project</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="true" asp-action="ProjectList" asp-controller="income">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive-sm">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Project Name</th>
+                                <th>Project Desc</th>
+                                <th>Client Name</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                @foreach (var emp in Model)
+                                {
+
+                                    <tr>
+                                        <td>@emp.ProjectName</td>
+                                        <td>@emp.ProjectDesc</td>
+                                        <td>@emp.ClientName</td>                                     
+                                        <td> <a asp-action="EditProject" asp-controller="income" asp-route-id="@emp.id" class="btn btn-primary btn-sm">Edit</a></td>
+                                        <td> <a asp-action="DeleteProject" asp-controller="income" asp-route-id="@emp.id" class="btn btn-primary btn-sm">Delete</a></td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

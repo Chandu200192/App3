@@ -1,0 +1,65 @@
+﻿@model IEnumerable<App3.Models.Employee>
+
+@{
+    Layout = "~/Views/Layout/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col">
+        <div class="card border-info mb-2">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="AddEmployee" asp-controller="Employee">Add Employee</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" asp-action="EmployeesList" aria-current="true" asp-controller="Employee">Employees</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Employee ID</th>
+                                <th>Employee Name</th>
+                                <th>Employee Email</th>
+                                <th>Reporting Manager</th>
+                                <th>Project</th>
+                                <th>Date Of Joining</th>
+                                <th>DOB</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                @foreach (var emp in Model)
+                                {
+                            <tr>
+                                <td>@emp.EmployeeID</td>
+                                <td>@emp.EmployeeName</td>
+                                <td>@emp.Email</td>
+                                <td>@emp.ReportingManager</td>
+                                <td>@emp.Designation</td>
+                                <td>@emp.Project</td>
+                                <td>@emp.DateOfJoining.ToString("dd/MM/yyyy")</td>
+                                <td>@emp.DOB.ToString("dd/MM/yyyy")</td>
+                                <td> <a asp-action="EditEmployee" asp-controller="Employee" asp-route-id="@emp.id" class="btn btn-primary btn-sm">Edit</a></td>
+                                <td> <a asp-action="DeleteEmployee" asp-controller="Employee" asp-route-id="@emp.id" class="btn btn-primary btn-sm">Delete</a></td>
+                            </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+﻿@model App3.ViewModel.ProjectViewModel
+
+@{
+    //Layout = "~/Views/Income/_Layout.cshtml";
+    Layout = "~/Views/Layout/_Layout.cshtml";
+}
+
+<div class="row justify-content-center mt-2">
+    <div class="col-md-12">
+        <div class="card border-info mb-3">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="AddProject" asp-controller="Income">Add Project</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="ProjectList" asp-controller="income">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" aria-current="true">Edit</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <form asp-action="UpdateProject" asp-controller="Income" method="post">
+                    <div class="form-group m-2">
+                        <label asp-for="ProjectID" class="form-label">Project ID</label>
+                        <input type="text" class="form-control" asp-for="ProjectID">
+                    </div>
+                    <div class="form-group m-2">
+                        <label asp-for="ProjectName" class="form-label">ProjectName</label>
+                        <input type="text" class="form-control" asp-for="ProjectName">
+                    </div>
+                    <div class="form-group m-2">
+                        <label asp-for="ClientNameList" class="form-label">Client Name</label>
+                        <select id="@Model.ClientNameList" asp-for="ClientName" asp-items="@(new SelectList(Model.ClientNameList, nameof(Client.ClientName),nameof(Client.ClientName)))" class="form-control">
+                            <option selected="selected" value="@Model.ClientName">@Model.ClientName</option>
+                        </select>
+                    </div>
+                    <div class="form-group m-2">
+                        <label asp-for="ProjectDesc" class="form-label">Project Desc</label>
+                        <input type="text" class="form-control" asp-for="ProjectDesc">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="submit">Update</button>
+                        <a class="btn btn-primary" asp-action="ProjectList" asp-controller="income">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,366 @@
+﻿@model App3.ViewModel.BioMetricInfoViewModel
+@{
+    Layout = "~/Views/Layout/_Layout.cshtml";
+}
+
+<div class="row justify-content-center mt-md-2 mb-md-2" style="padding-left:15%; padding-right: 15%;
+font-family: Georgia, 'Times New Roman', Times, serif;
+                             font-weight: bold; font-size: 100%">
+    <div class="col-md-12">
+        <div class="row mb-2">
+            <div class="alert alert-warning alert-dismissible d-none" id="myAlert" role="alert">
+                <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+
+        <div class="row justify-content-center gy-5">
+            <div class="card">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        @if (Model.Employee != null && Model.Employee.PhotoPath != null)
+                        {
+
+                            <img id="profile" src="~/Files/EmployeePhotos/@Model.Employee.PhotoPath" style="padding:2%; width: 100%; height:18vw; object-fit: cover"
+                                 class="card-img-top img-fluid rounded-circle" alt="profile-image">
+                        }
+                        else
+                        {
+                            <img id="profile" src="~/images/employee.jpg" style="padding:2%; width: 100%; height:18vw; object-fit: cover"
+                                 class="card-img-top img-fluid rounded-circle" alt="profile-image">
+                        }
+                        <h3 class="card-title">@Model.Employee.EmployeeName</h3>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">@Model.UserID</li>
+                            <li class="list-group-item">@Model.UserName</li>
+                            <li class="list-group-item">@Model.Employee.ReportingManager</li>
+                            <li class="list-group-item">@Model.Employee.Designation</li>
+                            <li class="list-group-item">@Model.Employee.Project</li>
+                            <li class="list-group-item pt-2"> <a asp-action="Summary" asp-controller="BioMetric"  class="btn btn-light">Biometric Details</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">                      
+                                <div class="row">
+                                    <form id="UserForm" class="ps-md-5" method="post">
+                                        <div class="row  mt-2">
+                                            <div class="col-md-6">
+                                                <a class="btn btn-primary position-relative btn-lg" onclick="submitUser()" id="btnLogin">
+                                                    Login
+                                                </a>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <a class="btn btn-primary btn-lg float-md-end" onclick="LogoutUser()" id="btnLogout">Logout</a>
+                                            </div>
+                                        </div>
+                                        <div class="row g-1 align-items-center mt-2 border border-info rounded-2">
+
+                                            <div class="col-md-3" hidden>
+                                                <label asp-for="UserName" hidden class="col-form-label">Password</label>
+                                            </div>
+                                            <div class="col-md-5" hidden>
+                                                <input type="text" class="form-control" asp-for="UserName" readonly="readonly" hidden>
+                                            </div>
+
+                                            <div class="col-md-3" hidden>
+                                                <label asp-for="UserID" hidden class="col-form-label">UserID</label>
+                                            </div>
+                                            <div class="col-md-5" hidden>
+                                                <input type="text" class="form-control" asp-for="UserID" readonly="readonly" hidden>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label asp-for="Date" class="col-form-label">Date</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input class="form-control" style="border: none; border-color: transparent" value="@DateTime.Now.ToString("dd/MM/yyyy")" readonly="readonly">
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label asp-for="TimeIn" class="col-form-label">Last Login</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="time" class="form-control" style="border: none; border-color: transparent" asp-for="TimeIn" asp-format="{0:HH:mm}" readonly="readonly">
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label asp-for="TimeOut" class="col-form-label">Last Logout</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="time" class="form-control" style="border: none; border-color: transparent" asp-for="TimeOut" asp-format="{0:HH:mm}" readonly="readonly">
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label asp-for="strRegularHours" class="col-form-label">Hours</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" style="border: none;
+                                border-color: transparent" asp-for="strRegularHours" readonly="readonly">
+                                            </div>
+
+                                            <div class="col-md-3" hidden>
+                                                <label asp-for="strExtraHours" hidden class="col-form-label">ExtraHours</label>
+                                            </div>
+                                            <div class="col-md-5 visually-hidden">
+                                                <input type="text" class="form-control visually-hidden" style="border: none;
+                                border-color: transparent" asp-for="strExtraHours" readonly="readonly">
+                                            </div>
+
+
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="row mt-2 ps-md-5">
+                                  <table class="table table-info border-info rounded-2 table-responsive">
+                                            <thead>
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Hours</th>
+                                                    <th>OT Request</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (Model.bioMetricInfos != null)
+                                                {
+                                                    @foreach (var emp in Model.bioMetricInfos)
+                                                    {
+                                                        var i = @emp.RegularHours + @emp.ExtraHours;
+                                                        var m = @emp.RegularMin + @emp.ExtraMin;
+                                                        <tr>
+                                                            <td>@Convert.ToDateTime(@emp.Date).ToString("dd/MM/yyyy")</td>
+                                                            <td> @i.ToString() hr : @m.ToString() min</td>
+                                                            <td> @emp.approvalType.ToString()</td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                </div>
+                            </div>                
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+        @section Scripts {
+
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            <script type="text/javascript">
+    google.charts.load('current', { packages: ['corechart', 'table'] });
+    google.charts.setOnLoadCallback(drawChart);
+    $(document).ready(function () {
+    $.ajax({
+    type: 'POST',
+    url: '@Url.Action("CheckStatus")',
+    dataType: "json",
+    contentType: "application/json; charset=utf-8",
+    data: '{}',
+    success: function (respone) {
+    console.log(respone);
+
+    var boolLogin = respone.isLogin;
+    var boolLogout = respone.isLogout;
+    if (boolLogin === 'True') {
+        $('#btnLogin').removeClass('disabled');
+        $('#btnLogout').addClass('disabled');
+        //$('#btnLogout').remove('<span class="position-absolute top-0 start-100 translate-middle badge border border - light rounded - circle bg - danger p - 2"> < span class= "visually-hidden" > unread messages</span ></span >')
+        //$('#btnLogin').append('<span class="position-absolute top-0 start-100 translate-middle badge border border - light rounded - circle bg - danger p - 2"> < span class= "visually-hidden" > unread messages</span ></span >')
+        //$('#idLogoutCircle').addClass('visually-hidden');
+        //$('#idLoginCircle').removeClass('visually-hidden');
+    }
+    if (boolLogout === 'True') {
+        $('#btnLogin').addClass('disabled');
+        $('#btnLogout').removeClass('disabled');
+        //$('#btnLogin').remove('<span class="position-absolute top-0 start-100 translate-middle badge border border - light rounded - circle bg - danger p - 2"> < span class= "visually-hidden" > unread messages</span ></span >')
+        //$('#btnLogout').append('<span class="position-absolute top-0 start-100 translate-middle badge border border - light rounded - circle bg - danger p - 2"> < span class= "visually-hidden" > unread messages</span ></span >')
+        //$('#idLogoutCircle').removeClass('visually-hidden');
+        //$('#idLoginCircle').addClass('visually-hidden');
+    }
+
+    },
+    error: function (respone) {
+    alert("Error loading data! Please try again.");
+    }
+    });
+
+    });
+
+    function submitUser() {
+            var data = $("#UserForm").serialize();
+            console.log(data);
+            alert(data);
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("TimeSheetLogin")',
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                data: data,
+                success: function (result) {
+
+                    alert('Successfully received Data ');
+                    console.log(result);
+                    var boolLogin = result.isLogin;
+                    var boolLogout = result.isLogout;
+                    if (boolLogin === 'True') {
+                        $('#btnLogin').removeClass('disabled');
+                        $('#btnLogout').addClass('disabled');
+                    }
+                    if (boolLogout === 'True') {
+                        $('#btnLogin').addClass('disabled');
+                        $('#btnLogout').removeClass('disabled');
+                        //$('#idLogoutCircle').removeClass('visually-hidden');
+                        //$('#idLoginCircle').addClass('visually-hidden');
+                        //$('#btnLogin').remove('<span class="position-absolute top-0 start-100 translate-middle badge border border - light rounded - circle bg - danger p - 2"> < span class= "visually-hidden" > unread messages</span ></span >')
+                        //$('#btnLogout').append('<span class="position-absolute top-0 start-100 translate-middle badge border border - light rounded - circle bg - danger p - 2"> < span class= "visually-hidden" > unread messages</span ></span >')
+
+                    }
+                    $('#myAlert').removeClass('d-none');
+                    $("#myAlert").addClass('fade show');
+
+                    window.location.reload(true);
+                },
+                error: function () {
+                    alert('Failed to receive the Data');
+                    console.log('Failed ');
+                }
+            })
+        }
+
+    function LogoutUser() {
+            var data1 = $("#UserForm").serialize();
+              console.log(data1);
+              alert(data1);
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("TimeSheetLogout")',
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                data: data1,
+                success: function (result) {
+                    alert('Successfully received Data ');
+                    console.log(result);
+                    var boolLogin = result.isLogin;
+                    var boolLogout = result.isLogout;
+                    if (boolLogin === 'True') {
+                        $('#btnLogin').removeClass('disabled');
+                        $('#btnLogout').addClass('disabled');
+                        //$('#idLogoutCircle').addClass('visually-hidden');
+                        //$('#idLoginCircle').removeClass('visually-hidden');
+                    //    $('#btnLogout').remove('<span class="position-absolute top-0 start-100 translate-middle badge border border - light rounded - circle bg - danger p - 2"> < span class= "visually-hidden" > unread messages</span ></span >')
+                    //    $('#btnLogin').append('<span class="position-absolute top-0 start-100 translate-middle badge border border - light rounded - circle bg - danger p - 2"> < span class= "visually-hidden" > unread messages</span ></span >')
+                    }
+                    if (boolLogout === 'True') {
+                        $('#btnLogin').addClass('disabled');
+                        $('#btnLogout').removeClass('disabled');
+                    }
+                    $('#myAlert').removeClass('d-none');
+                    $("#myAlert").addClass('fade show');
+                },
+                error: function () {
+                    alert('Failed to receive the Data');
+                    console.log('Failed ');
+                }
+            })
+        }
+
+    function drawChart() {
+
+        $.ajax({
+        type: 'POST',
+        url: '@Url.Action("CheckStatus")',
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        data: '{}',
+        success: function (respone) {
+            console.log(respone);
+            console.log(respone.id);
+            //drawChart(respone.id); // calling method
+            var data = new google.visualization.DataTable();
+
+            data.addColumn('string', 'Element');
+            data.addColumn('number', 'Density');
+            data.addColumn({ type: 'string', role: 'style' }); // certainty col.
+
+            data.addRow(["Copper", respone.id, "#b87333"]);
+            data.addRow(["Silver", 10.49, "silver"]);
+            data.addRow(["Gold", 19.30, "gold"]);
+            data.addRow(["Platinum", 21.45, "color: #e5e4e2"]);
+            data.addRow(["Silver", 10.49, "silver"]);
+            data.addRow(["Gold", 19.30, "gold"]);
+            data.addRow(["Platinum", 21.45, "color: #e5e4e2"]);
+
+            //for (var i = 0; i < dataValues.length; i++) {
+            //    data.addRow([dataValues[i].PlanName, dataValues[i].PaymentAmount]);
+            //}
+
+            //var data = google.visualization.arrayToDataTable([
+            //  ["Element", "Density", { role: "style" } ],
+            //  ["Copper", 8.94, "#b87333"],
+            //  ["Silver", 10.49, "silver"],
+            //  ["Gold", 19.30, "gold"],
+            //  ["Platinum", 21.45, "color: #e5e4e2"]
+            //]);
+
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 1,
+                {
+                    calc: "stringify",
+                    sourceColumn: 1,
+                    type: "string",
+                    role: "annotation"
+                },
+                2]);
+
+            var options = {
+                title: "",
+                width: 500, height: 250,
+                bar: { groupWidth: "65%" },
+                legend: { position: "none" },
+            };
+            var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+            chart.draw(view, options);
+        },
+        error: function (respone) {
+            alert("Error loading data! Please try again.");
+        }
+        });
+
+
+        }
+
+        $("#profileImage").click(function (e) {
+            $("#imageUpload").click();
+        });
+
+        function fasterPreview(uploader) {
+            if (uploader.files && uploader.files[0]) {
+                $('#profileImage').attr('src',
+                    window.URL.createObjectURL(uploader.files[0]));
+            }
+        }
+
+        $("#imageUpload").change(function () {
+            fasterPreview(this);
+        });
+
+
+        $("#image").change(function () {
+            readURL(this);
+            //other uploading proccess [server side by ajax and form-data ]
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#profile').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+            </script>
+        }

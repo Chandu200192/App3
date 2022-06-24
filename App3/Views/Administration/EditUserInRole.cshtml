@@ -1,0 +1,37 @@
+﻿@model List<App3.ViewModel.UserRoleViewModel>
+
+    @{
+    Layout = "~/Views/Layout/_Layout.cshtml";
+    var roleId = ViewBag.Id;
+    }
+
+    <form asp-action="EditUserInRole" asp-controller="Administration" asp-route-roleId="@roleId" method="post">
+        <div class="row justify-content-center mt-2">
+            <div class="col-md-12">
+                <div class="card border-info mb-3">
+                    <div class="card-header">
+                        <h2>Add or remove usres from this role</h2>
+                    </div>
+                    <div class="card-body">
+                        @for(int i =0; i< @Model.Count; i++)
+                                                       {
+            <div class="form-check m-1">
+                <input type="hidden" asp-for="@Model[i].userName" />
+                <input type="hidden" asp-for="@Model[i].UserId" />
+                <input asp-for="@Model[i].IsSelected" class="form-check-input" />
+                <label asp-for="@Model[i].IsSelected" class="form-check-label">
+                    @Model[i].userName
+                </label>
+            </div>
+            }
+                    </div>
+                    <div class="card-footer">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary"> Update</button>
+                            <a asp-action="EditRole" class="btn btn-primary">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>

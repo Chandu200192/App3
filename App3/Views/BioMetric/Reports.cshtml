@@ -1,0 +1,61 @@
+﻿@model App3.ViewModel.BioRecordReportViewModel
+
+@{
+    Layout = "~/Views/Layout/_Layout.cshtml";
+}
+
+<div class="row justify-content-center mt-2">
+
+    <div class="col-md-12">
+
+        <div class="card border-info mt-3">
+            <div class="card-header" style="padding:15px 15px; text-align:center;font-family:'Times New Roman', Times, serif; 
+            font-weight: bold; font-size:large">
+                Reports
+            </div>
+            <div class="card-body" style="font-family: 'Times New Roman', Times, serif; font-weight: bold; font-size: medium">
+                <form asp-action="BioReports" asp-controller="BioMetric" method="post">
+                    <div class="row g-3">
+                        <div class="form-group col-md-4">
+                            <label asp-for="UserID">User ID</label>
+                            <input type="number" class="form-control" asp-for="UserID">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label asp-for="FromDate">From Date</label>
+                            <input type="date" class="form-control" asp-for="FromDate">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label asp-for="ToDate">To Date</label>
+                            <input type="date" asp-for="ToDate" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row mt-3 ">
+                        <div class="form-check col-md-9 pt-2">
+                            <input type="radio" class="form-check-input" name="reportRadios" id="reportRadios1" value="SummaryReport" checked>
+                            <label class="form-check-label" id="reportRadios1" >Summary Report</label>
+                        </div>
+                        <div class="form-check col-md-9 pt-2">
+                            <input type="radio" class="form-check-input" name="reportRadios" id="reportRadios2"  value="DailyReport">
+                            <label class="form-check-label" id="reportRadios2" >Daily Report</label>
+                        </div>
+                        <div class="form-check col-md-9 pt-2">
+                            <input type="radio" class="form-check-input" name="reportRadios" id="reportRadios3"  value="WeeklyReport">
+                            <label class="form-check-label" id="reportRadios3" >Weekly Report</label>
+                        </div>
+                        <div class="form-check col-md-9 pt-2">
+                            <input type="radio" class="form-check-input" name="reportRadios" id="reportRadios4"  value="MonthlyReport">
+                            <label class="form-check-label" id="reportRadios4" >Monthly Report</label>
+                        </div>
+                    </div>
+                    <div class="form-group mt-2">
+                        <button class="btn btn-primary btn-sm" type="submit">Generate Report</button>
+                    </div>
+                </form>
+            </div>
+                  
+            </div>
+        </div>
+
+    </div>
+
+

@@ -1,0 +1,40 @@
+﻿@model App3.ViewModel.RegisterViewModel
+
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "User Registration";
+}
+
+
+<div class="row justify-content-md-center mt-md-5">
+    <div class="col-md-6">
+        <form asp-action="Register" asp-controller="Account" method="post">
+            <div asp-validation-summary="All" class="text-danger">
+
+            </div>
+            <div class="card border-info mb-3">
+                <div class="card-header">
+                    User Registration
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label asp-for="Email"></label>
+                        <input asp-for="Email" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password"></label>
+                        <input asp-for="Password" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ConfirmPassword"></label>
+                        <input asp-for="ConfirmPassword" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-sm mt-2" style="width:auto">Register</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

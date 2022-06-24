@@ -1,0 +1,84 @@
+﻿@model IEnumerable<App3.Models.BioMetricInfo>
+
+@{
+    Layout = "~/Views/Layout/_Layout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="nav-link active" asp-action="Summary" asp-controller="BioMetric">Summary</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="DailyBioRec" asp-controller="BioMetric">Detailed Information</a>
+                    </li>
+  
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="MonthlyData" asp-controller="BioMetric">Monthly Data</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <table id="biometricHistory" class="table rounded table-responsive">
+                    <thead>
+                        <tr>
+                            <th>UserID</th>
+                            <th>Date</th>
+                            <th>Time In</th>
+                            <th>Time Out</th>
+                            <th>Regular Hours</th>
+                            <th>Extra Hours</th>
+                            <th>OT Request</th>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <th>Edit</th>
+                            }
+                            </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            @foreach (var emp in Model)
+                            {
+                        <tr>
+                            <td>@emp.UserID</td>
+                            <td>@Convert.ToDateTime(@emp.Date).ToString("dd/MM/yyyy")</td>
+                            <td>@Convert.ToDateTime(@emp.TimeIn).ToString("HH:mm")</td>
+                            <td>@Convert.ToDateTime(@emp.TimeOut).ToString("HH:mm")</td>
+                            <td>@emp.RegularHours.ToString() hr : @emp.RegularMin.ToString() min</td>
+                            <td>@emp.ExtraHours hr : @emp.ExtraMin.ToString() min</td>
+                            @if (emp.approvalType == ApprovalType.None)
+                            {
+                                <td><a asp-action="RequestExtraTime" asp-controller="BioMetric" asp-route-id="@emp.Id"
+                                type="submit" class="btn btn-primary btn-sm">Apply</a></td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <a asp-action="RequestExtraTime" asp-controller="BioMetric" asp-route-id="@emp.Id"
+                                       type="submit" class="btn btn-primary disabled btn-sm" >@emp.approvalType.ToString()</a>
+                                </td>
+                            }
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <td>
+                                    <a asp-action="EditBiometricRecord" asp-controller="BioMetric" asp-route-id="@emp.Id"
+                                       type="submit" class="btn btn-primary btn-sm">Edit</a>
+                                </td>
+                            }
+                        </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+        <script src="~/js/Tablescript.js"></script>
+    }

@@ -1,0 +1,71 @@
+﻿@model App3.ViewModel.ReceiptsViewModel
+@using App3.Utilities
+@{
+    //Layout = "~/Views/Income/Layout/_Layout.cshtml";
+    Layout = "~/Views/Layout/_Layout.cshtml";
+
+
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-12 align-self-center">
+        <div class="card border-dark mt-2 mb-3 rounded">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="true" asp-action="CreateReceipt" asp-controller="Receipt">Generate Receipt</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"  asp-action="Receipts" asp-controller="Receipt">Receipts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <form enctype="multipart/form-data" asp-action="CreateReceipt" asp-controller="Receipt" method="post">
+                    <div class="row g-2">
+                        <div class="form-group col-md-6">
+                            <label class="form-label" asp-for="InvoiceId">Invoice</label>  
+                            <select id="@Model.InvoiceId" asp-for="InvoiceId" asp-items="@(new SelectList(Model.lstInvoiceID))" class="form-control">
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" asp-for="ReceiptID">Receipt ID</label>
+                            <input type="text" class="form-control" asp-for="ReceiptID" >
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" asp-for="AmountSource">Amount Source</label>
+                            <select id="@Model.AmountSource" asp-for="AmountSource" asp-items="Html.GetEnumSelectList<ReceiptType>()" class="form-control">
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" asp-for="Amount">Amount</label>
+                            <input type="number" class="form-control"  asp-for="Amount">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" asp-for="AmountReceivedBy">AmountReceived By</label>
+                            <input type="text" class="form-control" asp-for="AmountReceivedBy">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" asp-for="ReceivedDate">AmountRecieved Date</label>
+                            <input type="date" class="form-control" asp-format="{0:dd/MM/yyyy}" asp-for="ReceivedDate">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" asp-for="Comments">Comments</label>
+                            <textarea type="text" row="5" class="form-control"  asp-for="Comments"></textarea>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" asp-for="ReceiptFile">Attach Files</label>
+                            <input type="file" class="form-control" asp-for="ReceiptFile">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 mt-3">
+                        <button class="btn btn-primary" type="submit">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

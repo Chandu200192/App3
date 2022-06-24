@@ -1,0 +1,17 @@
+﻿.form-control {
+    font-family:Calibri;
+    font-size:small
+}
+
+.form-label {
+    font-family: Arial;
+    font-size: medium
+}
+
+html {
+    height: 100%;
+}
+
+table.dataTable.no-footer {
+    border: 1px solid #111;
+}

@@ -1,0 +1,122 @@
+﻿@model List<App3.ViewModel.MonthlyDataViewModel>
+
+@{
+    Layout = "~/Views/Layout/_Layout.cshtml";
+}
+
+<div class="row justify-content-center m-2">
+    <div class="col-md-12">
+        <div class="card border-dark mt-2 mb-3 rounded">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="Summary" asp-controller="BioMetric">Summary</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="DailyBioRec" asp-controller="BioMetric">Detailed Information</a>
+                    </li>
+                    @*<li class="nav-item">
+                        <a class="nav-link" asp-action="WeeklyData" asp-controller="BioMetric">Weekly Data</a>
+                    </li>*@
+                    <li class="nav-item">
+                        <a class="nav-link active" asp-action="MonthlyData" asp-controller="BioMetric">Monthly Data</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                @*<div class="row mb-2 mt-2">
+                    <div class="col-md-6">
+                        <label>EmployeeID</label>
+                        <select id="ch_user2" onchange="getSelectedData(this)">
+                            <option value="-1">All</option>
+                        </select>
+                    </div>
+                </div>*@
+
+                <table id="biometricHistory" class="table  border-dark rounded table-responsive">
+                    <thead>
+                        <tr>
+                            <th>UserId</th>
+                            <th>Year</th>
+                            <th>Month</th>
+                            <th>Regular Hours</th>
+                            <th>Regular Min</th>
+                            <th>Extra Hours</th>
+                            <th>Extra Min</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            @foreach (var emp in Model)
+                            {
+                                <tr>
+                                    <td>@emp.UserId</td>
+                                    <td>@emp.CurYear</td>
+                                    <td>@emp.CurMonthName</td>
+                                    <td>@emp.RegularHours</td>
+                                    <td>@emp.RegularMin</td>
+                                    <td>@emp.ExtraHours</td>
+                                    <td>@emp.ExtraMin</td>
+
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+
+    $.ajax({
+    type: 'GET',
+    url: '@Url.Action("GetEmployeeID")',
+    dataType: "json",
+    contentType: "application/json; charset=utf-8",
+    data: '{}',
+    success: function (respone) {
+        $.each(respone, function (i, obj) {
+                var div_data = "<option value=" + obj + ">" + obj + "</option>";
+                 $(div_data).appendTo('#ch_user2');
+            });
+    },
+    error: function (respone) {
+    alert("Error loading data! Please try again.");
+    }
+    });
+    });
+
+     function getSelectedData(sel) {
+         var val = sel.value;
+         var curId = val;
+         alert(curId);
+         console.log(curId);
+         var jsonData = { empid: curId };
+         $.ajax({
+             type: 'POST',
+             url: '@Url.Action("GetBioMonthlyWithEmployeeID")',
+             //contentType: 'application/json',
+             data: jsonData,
+             dataType: 'text',
+                success: function (result) {
+                    console.log(result);
+                    console.log(result);
+
+                },
+                error: function () {
+                    alert('Failed to receive the Data');
+                    console.log('Failed ');
+                }
+            })
+     }
+    </script>
+
+}

@@ -1,0 +1,157 @@
+﻿@model List<App3.ViewModel.WeeklyDataViewModel>
+
+@{
+    Layout = "~/Views/Layout/_Layout.cshtml";
+}
+
+<div class="row justify-content-center m-2">
+    <div class="col-md-12">
+        <div class="card border-dark mt-2 mb-3 rounded">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="Summary" asp-controller="BioMetric">Summary</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" asp-action="WeeklyData" asp-controller="BioMetric">Weekly Data</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="DailyBioRec" asp-controller="BioMetric">Detailed Information</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="MonthlyData" asp-controller="BioMetric">Monthly Data</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="row mb-2 mt-2">
+                    <div class="col-md-6">
+                        <label>EmployeeID</label>
+                        <select id="ch_user1" onchange="getSelectedData(this)">
+                            <option value="-1">All</option>
+                        </select>
+                    </div>
+                </div>
+                <table id="biometricHistory" class="table table-bordered border-dark rounded table-responsive">
+                    <thead>
+                        <tr>
+                            <th>UserId</th>
+                            <th>Year</th>
+                            <th>Month</th>
+                            <th>Week</th>
+                            <th>Regular Hours</th>
+                            <th>Regular Min</th>
+                            <th>Extra Hours</th>
+                            <th>Extra Min</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="tblBoby">
+                        @if (Model != null)
+                        {
+                            @foreach (var emp in Model)
+                            {
+                                <tr>
+                                    <td>@emp.UserId</td>
+                                    <td>@emp.CurYear</td>
+                                    <td>@emp.CurMonthName</td>
+                                    <td>@emp.Weekno</td>
+                                    <td>@emp.RegularHours</td>
+                                    <td>@emp.RegularMin</td>
+                                    <td>@emp.ExtraHours</td>
+                                    <td>@emp.ExtraMin</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+
+    $.ajax({
+    type: 'GET',
+    url: '@Url.Action("GetEmployeeID")',
+    dataType: "json",
+    contentType: "application/json; charset=utf-8",
+    data: '{}',
+    success: function (respone) {
+        $.each(respone, function (i, obj) {
+                var div_data = "<option value=" + obj + ">" + obj + "</option>";
+                $(div_data).appendTo('#ch_user1');
+            });
+    },
+    error: function (respone) {
+    alert("Error loading data! Please try again.");
+    }
+    });
+    });
+
+     function getSelectedData(sel) {
+         var val = sel.value;
+         var curId = val;
+         alert(curId);
+         console.log(curId);
+         var jsonData = { empid: curId };
+         $.ajax({
+             type: 'POST',
+             url: '@Url.Action("GetBioWeeklyWithEmployeeID")',
+             //contentType: 'application/json',
+             data: jsonData,
+             dataType: 'json',
+                success: function (result) {
+                    console.log(result);
+                    console.log(result[0].UserId);
+
+                    $("#tblBoby").find("tr").remove();
+
+                    //$.each(result, function (i, item) {
+                    //    var $tr = $('<tr>').append(
+                    //        $('<td>').text(item.UserId),
+                    //        $('<td>').text(item.CurYear),
+                    //        $('<td>').text(item.CurMonthName),
+                    //        $('<td>').text(item.Weekno),
+                    //        $('<td>').text(item.RegularHours),
+                    //        $('<td>').text(item.RegularMin),
+                    //        $('<td>').text(item.ExtraHours),
+                    //        $('<td>').text(item.ExtraMin)
+                    //    );//.appendTo('#records_table');
+                    //    //console.log($tr.wrap('<p>').html());
+                    //});
+
+                    //var trHTML = '';
+                    //$.each(result, function (i, item) {
+                    //    console.log(item);
+                    //    console.log(item.UserId);
+                    //    console.log(item["UserId"]);
+                    //    trHTML += '<tr><td>' + item.UserId + '</td><td>' + item.CurYear +
+                    //        '</td><td>' + item.CurMonthName +
+                    //        '</td>< td > ' + item.Weekno +
+                    //        '</td>< td > ' + item.RegularHours +
+                    //        '</td>< td > ' + item.RegularMin +
+                    //        '</td>< td > ' + item.ExtraHours +
+                    //        '</td>< td > ' + item.ExtraMin +
+                    //        '</td></tr > ';
+                    //});
+                    //$('#biometricHistory').append(trHTML);
+
+
+                },
+                error: function () {
+                    alert('Failed to receive the Data');
+                    console.log('Failed ');
+                }
+            })
+     }
+
+
+    </script>
+
+}
